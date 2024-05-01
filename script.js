@@ -1,9 +1,10 @@
 const board = document.getElementById('board');
+const heading = document.getElementById('heading');
 const state = [];
-const coltops = [5, 5, 5, 5, 5, 5];
+const coltops = [5, 5, 5, 5, 5, 5, 5];
 var player = 1;
 
-for (let i = 0; i < 6; i++) {
+for (let i = 0; i < 7; i++) {
   const row = [];
 
   for (let j = 0; j < 6; j++) {
@@ -12,13 +13,13 @@ for (let i = 0; i < 6; i++) {
   state.push(row);
 }
 
-for (let i = 0; i < 6; i++) {
+for (let i = 0; i < 7; i++) {
   const column = document.createElement('div');
   column.classList.add('column');
 
   for (let j = 0; j < 6; j++) {
     const box = document.createElement('div');
-    box.id = j * 6 + i;
+    box.id = j * 7 + i;
     box.classList.add('box');
     box.addEventListener('click', boxClicked);
     column.appendChild(box);
@@ -28,8 +29,8 @@ for (let i = 0; i < 6; i++) {
 }
 
 function boxClicked(event) {
-  const col = event.target.id % 6;
-  const fillbox = coltops[col] * 6 + col;
+  const col = event.target.id % 7;
+  const fillbox = coltops[col] * 7 + col;
   state[coltops[col]][col] = player;
   document.getElementById(fillbox).classList.add('box' + player);
 
@@ -40,15 +41,17 @@ function boxClicked(event) {
   coltops[col]--;
 
   if (player == 1) {
+    heading.style.color = '#FCBA04';
     player = -1;
   } else {
+    heading.style.color = '#A50104';
     player = 1;
   }
 }
 
 function checkWin(boxID) {
-  const r = Math.floor(boxID / 6);
-  const c = boxID % 6;
+  const r = Math.floor(boxID / 7);
+  const c = boxID % 7;
   function checker(dr, dc) {
     let hits = 0;
     for (let i = -3; i < 4; i++) {
@@ -58,7 +61,7 @@ function checkWin(boxID) {
         row >= 0 &&
         col >= 0 &&
         row < 6 &&
-        col < 6 &&
+        col < 7 &&
         state[row][col] === player
       ) {
         hits++;
